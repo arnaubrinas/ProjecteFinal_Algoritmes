@@ -137,13 +137,8 @@ python clasificador.py ./correus_entrada ./quarantena_sortida
 
 ---
 
-##  Ús d'eines externes o IA
-
-- **Llibreries utilitzades:** Únicament la biblioteca estàndard de Python (`os`, `re`, `email`, `shutil`, `sys`). Cap dependència externa.
-- **Fonts de referència per a les paraules sospitoses:** Adaptat de les regles de SpamAssassin i les llistes de paraules clau de l'APWG (Anti-Phishing Working Group).
-- **Eines d'IA:** [Indicar aquí si s'han utilitzat LLMs o assistents de codi, i en quines parts]
-
----
+##  Ús d’intel·ligència artificial
+S’ha utilitzat de manera puntual intel·ligència artificial a algunes parts del codi del projecte, però s'ha indicat específicament a les linies de codi que s'ha fet servir. També l'hem fet servir com a suport per aclarir dubtes generals sobre l’estructura del projecte. Tot i així el codi l'hem entès, adaptat i implementat manualment.
 
 ##  Resum de complexitat algorítmica
 
