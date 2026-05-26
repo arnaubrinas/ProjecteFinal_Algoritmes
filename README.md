@@ -1,23 +1,23 @@
-# 📧 Clasificador de Correos Spam/Phishing
+#  Clasificador de Correos Spam/Phishing
 
 > Sistema de detecció i classificació automàtica de correus electrònics maliciosos mitjançant estructures de dades avançades i tècniques de ciberseguretat.
 
 ---
 
-## 📋 Descripció breu
+##  Descripció breu
 
 Sistema que analitza arxius `.eml` per detectar spam i phishing. Utilitza un Arbre Binari de Cerca (BST) per indexar paraules sospechoses, distància de Levenshtein per detectar typosquatting, i un escàner recursiu de carpetes per processar múltiples correus. Els correus marcats com a perillosos o sospitosos es mouen automàticament a una carpeta de quarantena.
 
 ---
 
-## 👥 Integrants del grup
+##  Integrants del grup
 
 - **Pol Sánchez**
 - **Arnau Briñas**
 
 ---
 
-## 🔐 Context i problemàtica
+##  Context i problemàtica
 
 El phishing i el spam són dues de les amenaces més esteses en ciberseguretat. Segons l'APWG, milions de correus maliciosos es distribueixen diàriament, molts d'ells imitant entitats legítimes (bancs, serveis de correu, organismes públics) per robar credencials o infectar dispositius.
 
@@ -29,7 +29,7 @@ El repte principal és la detecció eficient: un sistema real ha d'analitzar mil
 
 ---
 
-## ⚙️ Funcionalitats principals
+##  Funcionalitats principals
 
 | # | Funcionalitat | Descripció |
 |---|--------------|------------|
@@ -44,7 +44,7 @@ El repte principal és la detecció eficient: un sistema real ha d'analitzar mil
 
 ---
 
-## 🏗️ Ús de POO i polimorfisme
+##  Ús de POO i polimorfisme
 
 ### Classes principals
 
@@ -89,7 +89,7 @@ for filtro in self.filtros:
 
 ---
 
-## 🚀 Instruccions d'execució i dependències
+##  Instruccions d'execució i dependències
 
 ### Requisits
 
@@ -129,15 +129,15 @@ python clasificador.py ./correus_entrada ./quarantena_sortida
 
 ---
 
-## 🎥 Vídeo demostratiu
+##  Vídeo demostratiu
 
-> 🔗 **[Inserir enllaç al vídeo aquí]**
+>  **[Inserir enllaç al vídeo aquí]**
 
 *(Durada: 5-8 minuts — inclou presentació, demo en directe i explicació de l'anàlisi de complexitat)*
 
 ---
 
-## 🤖 Ús d'eines externes o IA
+##  Ús d'eines externes o IA
 
 - **Llibreries utilitzades:** Únicament la biblioteca estàndard de Python (`os`, `re`, `email`, `shutil`, `sys`). Cap dependència externa.
 - **Fonts de referència per a les paraules sospitoses:** Adaptat de les regles de SpamAssassin i les llistes de paraules clau de l'APWG (Anti-Phishing Working Group).
@@ -145,7 +145,7 @@ python clasificador.py ./correus_entrada ./quarantena_sortida
 
 ---
 
-## 📊 Resum de complexitat algorítmica
+##  Resum de complexitat algorítmica
 
 | Operació | Complexitat |
 |----------|------------|
