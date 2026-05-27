@@ -59,6 +59,60 @@ class NodoBST:
         self.derecho = None
 
 class ArbolBST:
+    # Árbol BST para guardar las palabras sospechosas
+    #Usaamos _ en los métodos internos para indicar que son privados
+
+    def __init__(self):
+        self.raiz = None
+
+    def insertar(self, palabra, peso):
+        self.raiz = self._insertar(self.raiz, palabra.lower(), peso)
+
+    def _insertar(self, nodo, palabra, peso):
+        # caso base: posición vacía, creamos el nodo aquí
+        if nodo is None:
+            return NodoBST(palabra, peso)
+        if palabra < nodo.palabra:
+            nodo.izquierdo = self._insertar(nodo.izquierdo, palabra, peso)
+        elif palabra > nodo.palabra:
+            nodo.derecho = self._insertar(nodo.derecho, palabra, peso)
+        else:
+            # ya estaba en el árbol, solo sumamos una aparición más
+            nodo.frecuencia += 1
+        return nodo
+
+    def buscar(self, palabra):
+        return self._buscar(self.raiz, palabra.lower())
+
+    def _buscar(self, nodo, palabra):
+        if nodo is None or nodo.palabra == palabra:
+            return nodo
+        if palabra < nodo.palabra:
+            return self._buscar(nodo.izquierdo, palabra)
+        return self._buscar(nodo.derecho, palabra)
+
+    def calcular_riesgo_total(self):
+        return self._calcular_riesgo(self.raiz)
+
+    def _calcular_riesgo(self, nodo):
+        if nodo is None:
+            return 0
+        izq = self._calcular_riesgo(nodo.izquierdo)
+        actual = nodo.peso * nodo.frecuencia
+        der = self._calcular_riesgo(nodo.derecho)
+        return izq + actual + der
+
+    def palabras_encontradas(self):
+        resultado = []
+        self._listar(self.raiz, resultado)
+        return resultado
+
+    def _listar(self, nodo, lista):
+        if nodo is None:
+            return
+        self._listar(nodo.izquierdo, lista)
+        lista.append((nodo.palabra, nodo.peso, nodo.frecuencia))
+        self._listar(nodo.derecho, lista)
 
 class FiltroCorreo:
 
