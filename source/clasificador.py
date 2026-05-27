@@ -48,3 +48,21 @@ DOMINIOS_MALOS = [
     "bit.ly", "tinyurl.com", "goo.gl", "ow.ly", "t.co",
     "mailinator.com", "tempmail.com", "guerrillamail.com",
 ]
+
+class NodoBST:
+    pass
+
+class ArbolBST:
+    pass
+
+class FiltroCorreo:
+    pass
+
+class FiltroPorPalabrasClave(FiltroCorreo):
+    pass
+
+class FiltroPorRemitenteSospechoso(FiltroCorreo):
+    pass
+
+class AnalizadorCorreo:
+    pass
