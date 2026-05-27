@@ -34,7 +34,7 @@ PALABRAS_SPAM = {
     "credit card": 45, "limited time": 35, "act now": 50,
 }
 
-# Dominios reales que suelen imitar los atacantes
+# # Dominios sospechosos, si aparecen en un correo es mala señal
 DOMINIOS_LEGITIMOS = [
     "google.com", "gmail.com", "yahoo.com", "outlook.com", "hotmail.com",
     "microsoft.com", "apple.com", "icloud.com", "amazon.com", "paypal.com",
