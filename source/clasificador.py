@@ -43,7 +43,7 @@ DOMINIOS_LEGITIMOS = [
     "correos.es", "hacienda.gob.es", "seg-social.es", "agenciatributaria.es",
 ]
 
-# Dominios que son sospechosos, tienen acortadores de URL, mails temporales, etc...
+# Dominios que son sospechosos en la vida real, si los buscas están
 DOMINIOS_MALOS = [
     "bit.ly", "tinyurl.com", "goo.gl", "ow.ly", "t.co",
     "mailinator.com", "tempmail.com", "guerrillamail.com",
@@ -119,7 +119,29 @@ class FiltroCorreo: # Clase base para todos los filtros
     def analizar(self, asunto, remitente, cuerpo):
         pass
 
-class FiltroPorPalabrasClave(FiltroCorreo):
+class FiltroPorPalabrasClave(FiltroCorreo): # Busca palabras sospechosas en el correo usando el árbol BST
+
+    def __init__(self):
+        # cargamos las palabras sospechosas en el árbol al crear el filtro
+        self.arbol = ArbolBST()
+        for palabra, peso in PALABRAS_SPAM.items():
+            self.arbol.insertar(palabra, peso)
+
+    def analizar(self, asunto, remitente, cuerpo):
+        texto = (asunto + " " + cuerpo).lower()
+        arbol_encontradas = ArbolBST()
+        razones = []
+
+        for palabra, peso in PALABRAS_SPAM.items():
+            if palabra in texto:
+                arbol_encontradas.insertar(palabra, peso)
+
+        puntuacion = arbol_encontradas.calcular_riesgo_total()
+
+        for palabra, peso, freq in arbol_encontradas.palabras_encontradas():
+            razones.append(f"Palabra sospechosa: '{palabra}' (peso {peso}, aparece {freq}x)")
+
+        return puntuacion, razones
 
 class FiltroPorRemitenteSospechoso(FiltroCorreo):
 
