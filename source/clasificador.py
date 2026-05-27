@@ -50,19 +50,20 @@ DOMINIOS_MALOS = [
 ]
 
 class NodoBST:
-    pass
+    # Cada nodo guarda una palabra, su peso de riesgo y cuántas veces aparece
+    def __init__(self, palabra, peso):
+        self.palabra = palabra
+        self.peso = peso
+        self.frecuencia = 1   # la primera vez que la ponemos
+        self.izquierdo = None
+        self.derecho = None
 
 class ArbolBST:
-    pass
 
 class FiltroCorreo:
-    pass
 
 class FiltroPorPalabrasClave(FiltroCorreo):
-    pass
 
 class FiltroPorRemitenteSospechoso(FiltroCorreo):
-    pass
 
 class AnalizadorCorreo:
-    pass
