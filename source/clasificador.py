@@ -114,7 +114,10 @@ class ArbolBST:
         lista.append((nodo.palabra, nodo.peso, nodo.frecuencia))
         self._listar(nodo.derecho, lista)
 
-class FiltroCorreo:
+class FiltroCorreo: # Clase base para todos los filtros
+    # Cada filtro recibe el contenido del correo y devuelve una puntuación de riesgo
+    def analizar(self, asunto, remitente, cuerpo):
+        pass
 
 class FiltroPorPalabrasClave(FiltroCorreo):
 
