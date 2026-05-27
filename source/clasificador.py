@@ -48,15 +48,48 @@ DOMINIOS_MALOS = [
     "bit.ly", "tinyurl.com", "goo.gl", "ow.ly", "t.co",
     "mailinator.com", "tempmail.com", "guerrillamail.com",
 ]
+# La distancia de levenshtein mesura quanto de diferentes son dos palabrass calculando cuántas operaciones como insertar, borrar, sustituir..., hacen falta para pasar de s1 a s2
+def distancia_levenshtein(s1, s2):
+    m = len(s1)
+    n = len(s2)
+    # creamos una matriz de m+1 filas y n+1 columnas
+    dp = [[0] * (n + 1) for _ in range(m + 1)]
 
-class NodoBST:
-    # Cada nodo guarda una palabra, su peso de riesgo y cuántas veces aparece
-    def __init__(self, palabra, peso):
-        self.palabra = palabra
-        self.peso = peso
-        self.frecuencia = 1   # la primera vez que la ponemos
-        self.izquierdo = None
-        self.derecho = None
+    # rellenamos la primera fila y columna
+    for i in range(m + 1):
+        dp[i][0] = i
+    for j in range(n + 1):
+        dp[0][j] = j
+
+    for i in range(1, m + 1):
+        for j in range(1, n + 1):
+            if s1[i - 1] == s2[j - 1]:
+                dp[i][j] = dp[i - 1][j - 1]
+            else:
+                # cogemos el mínimo de borrar, insertar o sustituir
+                dp[i][j] = 1 + min(dp[i - 1][j], dp[i][j - 1], dp[i - 1][j - 1])
+
+    return dp[m][n]
+
+# comprueba si un dominio es una imitación falsa de uno legítimo
+def es_typosquatting(dominio):
+    # si la distancia es <= 2 significa que solo hay 1 o 2 caracteres de diferencia, sospechoso
+    dominio = dominio.lower().strip()
+    for legitimo in DOMINIOS_LEGITIMOS:
+        if dominio == legitimo:
+            return False  # es el mismo no pasa nada
+        if distancia_levenshtein(dominio, legitimo) <= 2:
+            return True
+    return False
+
+
+def extraer_dominios(texto):
+    # busca dominios en URLs y también en direcciones de email
+    patron = r'https?://([a-zA-Z0-9.\-]+)'
+    dominios = re.findall(patron, texto)
+    patron_email = r'@([a-zA-Z0-9.\-]+\.[a-zA-Z]{2,})'
+    dominios += re.findall(patron_email, texto)
+    return dominios
 
 class ArbolBST:
     # Árbol BST para guardar las palabras sospechosas
@@ -114,12 +147,14 @@ class ArbolBST:
         lista.append((nodo.palabra, nodo.peso, nodo.frecuencia))
         self._listar(nodo.derecho, lista)
 
-class FiltroCorreo: # Clase base para todos los filtros
+# Clase base para todos los filtros
+class FiltroCorreo:
     # Cada filtro recibe el contenido del correo y devuelve una puntuación de riesgo
     def analizar(self, asunto, remitente, cuerpo):
         pass
 
-class FiltroPorPalabrasClave(FiltroCorreo): # Busca palabras sospechosas en el correo usando el árbol BST
+# Busca palabras sospechosas en el correo usando el árbol BST
+class FiltroPorPalabrasClave(FiltroCorreo):
 
     def __init__(self):
         # cargamos las palabras sospechosas en el árbol al crear el filtro
@@ -170,3 +205,5 @@ class FiltroPorRemitenteSospechoso(FiltroCorreo): # Mira los dominios del remite
         return puntuacion, razones
 
 class AnalizadorCorreo:
+    pass
+
