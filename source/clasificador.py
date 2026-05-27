@@ -143,6 +143,30 @@ class FiltroPorPalabrasClave(FiltroCorreo): # Busca palabras sospechosas en el c
 
         return puntuacion, razones
 
-class FiltroPorRemitenteSospechoso(FiltroCorreo):
+class FiltroPorRemitenteSospechoso(FiltroCorreo): # Mira los dominios del remitente y del cuerpo del correo
+
+    def analizar(self, asunto, remitente, cuerpo):
+        puntuacion = 0
+        razones = []
+        texto_completo = remitente + " " + cuerpo
+
+        dominios = extraer_dominios(texto_completo)
+
+        for dominio in dominios:
+            dominio_limpio = dominio.lower().strip()
+
+            if dominio_limpio in DOMINIOS_MALOS:
+                puntuacion += 60
+                razones.append(f"Dominio en lista negra: {dominio_limpio}")
+
+            elif es_typosquatting(dominio_limpio):
+                puntuacion += 70
+                razones.append(f"Posible typosquatting: {dominio_limpio}")
+
+        if re.search(r'https?://[^/]*@', texto_completo):
+            puntuacion += 50
+            razones.append("URL sospechosa con @")
+
+        return puntuacion, razones
 
 class AnalizadorCorreo:
