@@ -34,7 +34,7 @@ PALABRAS_SPAM = {
     "credit card": 45, "limited time": 35, "act now": 50,
 }
 
-# # Dominios sospechosos, si aparecen en un correo es mala señal
+# Dominios reales que suelen imitar los atacantes
 DOMINIOS_LEGITIMOS = [
     "google.com", "gmail.com", "yahoo.com", "outlook.com", "hotmail.com",
     "microsoft.com", "apple.com", "icloud.com", "amazon.com", "paypal.com",
@@ -43,11 +43,12 @@ DOMINIOS_LEGITIMOS = [
     "correos.es", "hacienda.gob.es", "seg-social.es", "agenciatributaria.es",
 ]
 
-# Dominios que son sospechosos en la vida real
+# Acortadores de URL y correos temporales, nadie legítimo los usa
 DOMINIOS_MALOS = [
     "bit.ly", "tinyurl.com", "goo.gl", "ow.ly", "t.co",
     "mailinator.com", "tempmail.com", "guerrillamail.com",
 ]
+
 # La distancia de levenshtein mesura quanto de diferentes son dos palabrass calculando cuántas operaciones como insertar, borrar, sustituir..., hacen falta para pasar de s1 a s2
 def distancia_levenshtein(s1, s2):
     m = len(s1)
