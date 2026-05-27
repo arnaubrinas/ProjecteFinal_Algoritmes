@@ -43,7 +43,7 @@ DOMINIOS_LEGITIMOS = [
     "correos.es", "hacienda.gob.es", "seg-social.es", "agenciatributaria.es",
 ]
 
-# Dominios que son sospechosos en la vida real, si los buscas están
+# Dominios que son sospechosos en la vida real
 DOMINIOS_MALOS = [
     "bit.ly", "tinyurl.com", "goo.gl", "ow.ly", "t.co",
     "mailinator.com", "tempmail.com", "guerrillamail.com",
