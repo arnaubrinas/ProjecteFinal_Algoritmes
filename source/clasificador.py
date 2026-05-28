@@ -265,7 +265,7 @@ class AnalizadorCorreo:
             "razones": razones_total,
         }
     
-    def escanear_carpeta(carpeta, analizador):
+def escanear_carpeta(carpeta, analizador):
     # Aqui recorre una carpeta y todas sus subcarpetas buscando archivos .eml
     resultados = []
 
