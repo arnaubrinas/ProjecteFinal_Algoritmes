@@ -92,6 +92,15 @@ def extraer_dominios(texto):
     dominios += re.findall(patron_email, texto)
     return dominios
 
+class NodoBST:
+    # cada nodo guarda una palabra, su peso de riesgo y cuántas veces aparece
+    def init(self, palabra, peso):
+        self.palabra = palabra
+        self.peso = peso
+        self.frecuencia = 1   # la primera vez que la insertamos
+        self.izquierdo = None
+        self.derecho = None
+        
 class ArbolBST:
     # Árbol BST para guardar las palabras sospechosas
     #Usaamos _ en los métodos internos para indicar que son privados
