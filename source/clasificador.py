@@ -83,7 +83,7 @@ def es_typosquatting(dominio):
             return True
     return False
 
-
+# Saca todos los dominios que aparecen en un texto i busca tanto en URLs como en direcciones de mail
 def extraer_dominios(texto):
     # busca dominios en URLs y también en direcciones de email
     patron = r'https?://([a-zA-Z0-9.\-]+)'
@@ -92,6 +92,7 @@ def extraer_dominios(texto):
     dominios += re.findall(patron_email, texto)
     return dominios
 
+# guarda una palabra sospechosa, su peso y cuántas veces aparece
 class NodoBST:
     # cada nodo guarda una palabra, su peso de riesgo y cuántas veces aparece
     def __init__(self, palabra, peso):
@@ -100,7 +101,8 @@ class NodoBST:
         self.frecuencia = 1   # la primera vez que la insertamos
         self.izquierdo = None
         self.derecho = None
-        
+
+# Almacena lkas palabras sospechosas que encuentra y permite insertar, buscar y calcular el riesgo total   
 class ArbolBST:
     # Árbol BST para guardar las palabras sospechosas
     #Usaamos _ en los métodos internos para indicar que son privados
@@ -108,9 +110,11 @@ class ArbolBST:
     def __init__(self):
         self.raiz = None
 
+    #Pone una palabra
     def insertar(self, palabra, peso):
         self.raiz = self._insertar(self.raiz, palabra.lower(), peso)
 
+    #Baja por el árbol hasta encontrar la posición correcta
     def _insertar(self, nodo, palabra, peso):
         # caso base: posición vacía, creamos el nodo aquí
         if nodo is None:
@@ -124,9 +128,11 @@ class ArbolBST:
             nodo.frecuencia += 1
         return nodo
 
+    #Para buscar una palabra en el árbol, prepara la palabra poniéndola en minúsculas y llama al _buscar que es el que realmente va por el árbol. 
     def buscar(self, palabra):
         return self._buscar(self.raiz, palabra.lower())
 
+    # Busca recursivamente, aprovecha lo que hace el BST para descartar ramas enterasm es el metodo privado que hace lo recursivo
     def _buscar(self, nodo, palabra):
         if nodo is None or nodo.palabra == palabra:
             return nodo
@@ -134,9 +140,11 @@ class ArbolBST:
             return self._buscar(nodo.izquierdo, palabra)
         return self._buscar(nodo.derecho, palabra)
 
+    # Calcula la puntuación de riesgo total sumando el peso * frecuencia de cada palabra
     def calcular_riesgo_total(self):
         return self._calcular_riesgo(self.raiz)
-
+    
+    # Recorre el árbol de izquierda --> nodo --> derecha, sumando los riesgos
     def _calcular_riesgo(self, nodo):
         if nodo is None:
             return 0
@@ -145,11 +153,13 @@ class ArbolBST:
         der = self._calcular_riesgo(nodo.derecho)
         return izq + actual + der
 
+    # devuelve la lista de todas las palabras encontradas con su peso y frecuencia
     def palabras_encontradas(self):
         resultado = []
         self._listar(self.raiz, resultado)
         return resultado
-
+    
+    # Para obtener las palabras ordenadas alfabéticamente
     def _listar(self, nodo, lista):
         if nodo is None:
             return
@@ -173,10 +183,12 @@ class FiltroPorPalabrasClave(FiltroCorreo):
             self.arbol.insertar(palabra, peso)
 
     def analizar(self, asunto, remitente, cuerpo):
-        texto = (asunto + " " + cuerpo).lower()
+        #Juntamos asunto y cuerpo para buscar las palabras sospechosas una vez en lugar de tener que buscar dos veces, una en el asunto y otra en el cuerpo
+        texto = (asunto + " " + cuerpo).lower() 
         arbol_encontradas = ArbolBST()
         razones = []
 
+        # Comprobamos cada palabra sospechosa, si aparece en el texto la añadimos
         for palabra, peso in PALABRAS_SPAM.items():
             if palabra in texto:
                 arbol_encontradas.insertar(palabra, peso)
@@ -187,7 +199,8 @@ class FiltroPorPalabrasClave(FiltroCorreo):
             razones.append(f"Palabra sospechosa: '{palabra}' (peso {peso}, aparece {freq}x)")
 
         return puntuacion, razones
-
+    
+# Filtro que analiza los dominios del remitente y las URLs del cuerpo
 class FiltroPorRemitenteSospechoso(FiltroCorreo): # Mira los dominios del remitente y del cuerpo del correo
 
     def analizar(self, asunto, remitente, cuerpo):
@@ -205,14 +218,18 @@ class FiltroPorRemitenteSospechoso(FiltroCorreo): # Mira los dominios del remite
                 razones.append(f"Dominio en lista negra: {dominio_limpio}")
 
             elif es_typosquatting(dominio_limpio):
+                # Dominio casi idéntico a uno legítimo, probable engaño
                 puntuacion += 70
                 razones.append(f"Posible typosquatting: {dominio_limpio}")
 
+        #Comprobamos si hay URLs con @ dentro, que es un truco de phishing
         if re.search(r'https?://[^/]*@', texto_completo):
             puntuacion += 50
             razones.append("URL sospechosa con @")
 
         return puntuacion, razones
+
+
 
 class AnalizadorCorreo:
     # Aqui lo que nharemos es juntar todos los filtros y analiza cada correo .eml
