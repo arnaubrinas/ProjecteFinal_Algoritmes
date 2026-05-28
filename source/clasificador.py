@@ -331,12 +331,12 @@ def imprimir_reporte(resultados):
 
 def clasificar(carpeta_entrada, carpeta_cuarentena="cuarentena"):
     # funcioon principal, escanea la carpeta, analiza los correos y mueve los peligrosos
-    print(f"\n[*] Escaneando carpeta: {carpeta_entrada}")
+    print(f"\nEscaneando carpeta: {carpeta_entrada}")
 
     analizador = AnalizadorCorreo()
     resultados = escanear_carpeta(carpeta_entrada, analizador)
 
-    print(f"[*] Correos encontrados: {len(resultados)}")
+    print(f"Correos encontrados: {len(resultados)}")
 
     # mover a cuarentena los marcados como sospechosos o peligrosos
     cuenta = 0
