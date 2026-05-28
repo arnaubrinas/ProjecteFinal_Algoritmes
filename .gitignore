@@ -2,3 +2,6 @@ build/
 __pycache__/
 *.pyc
 .env
+cuarentena/
+demo_correos/
+demo_cuarentena/
