@@ -298,6 +298,22 @@ def escanear_carpeta(carpeta, analizador):
 
     return resultados
 
+def mover_a_cuarentena(resultado, carpeta_cuarentena):
+    # mueve un correo sospechoso/peligroso a la carpeta de cuarentena
+    os.makedirs(carpeta_cuarentena, exist_ok=True)
+    archivo_origen = resultado["archivo"]
+    nombre_archivo = os.path.basename(archivo_origen)
+    destino = os.path.join(carpeta_cuarentena, nombre_archivo)
+
+    # si ya hay un archivo con el mismo nombre le añadimos _dup
+    if os.path.exists(destino):
+        base, ext = os.path.splitext(nombre_archivo)
+        destino = os.path.join(carpeta_cuarentena, f"{base}_dup{ext}")
+
+    shutil.move(archivo_origen, destino)
+    resultado["archivo"] = destino
+    print(f"  se ha movido a cuarentena: {nombre_archivo}")
+
 def imprimir_reporte(resultados):
     # muestra un resumen de todos los correos analizados
     total = len(resultados)
