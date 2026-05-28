@@ -328,3 +328,97 @@ def imprimir_reporte(resultados):
             print(" Razones:")
             for razon in r["razones"]:
                 print(f" - {razon}")
+
+def clasificar(carpeta_entrada, carpeta_cuarentena="cuarentena"):
+    # funcioon principal, escanea la carpeta, analiza los correos y mueve los peligrosos
+    print(f"\n[*] Escaneando carpeta: {carpeta_entrada}")
+
+    analizador = AnalizadorCorreo()
+    resultados = escanear_carpeta(carpeta_entrada, analizador)
+
+    print(f"[*] Correos encontrados: {len(resultados)}")
+
+    # mover a cuarentena los marcados como sospechosos o peligrosos
+    cuenta = 0
+    for resultado in resultados:
+        if "error" not in resultado and resultado["nivel"] in ("SOSPECHOSO", "PELIGROSO"):
+            mover_a_cuarentena(resultado, carpeta_cuarentena)
+            cuenta += 1
+
+    print(f"[*] Movidos a cuarentena: {cuenta}")
+    imprimir_reporte(resultados)
+    return resultados
+
+
+def generar_correos_demo(carpeta):
+    # genera archivos .eml de prueba para demostrar el clasificador
+    os.makedirs(carpeta, exist_ok=True)
+    os.makedirs(os.path.join(carpeta, "subcarpeta_trabajo"), exist_ok=True)
+
+    correos = [
+        (
+            "correo_normal.eml",
+            "Reunion de equipo el lunes",
+            "Ana Garcia <ana.garcia@empresa.com>",
+            "Hola, os recuerdo que el lunes tenemos reunion a las 10h. Un saludo."
+        ),
+        (
+            "spam_premio.eml",
+            "HAS GANADO UN PREMIO!! Actua ahora - Tiempo limitado",
+            "noreply@g00gle-prizes.com",
+            "Enhorabuena ganador! Has ganado 1.000.000 de euros. "
+            "Haz clic aqui para reclamar tu premio gratis: http://g00gle-prizes.com/reclamar "
+            "Esta oferta exclusiva expira hoy. Urgente: actua ahora."
+        ),
+        (
+            "phishing_banco.eml",
+            "URGENTE: Tu cuenta bancaria ha sido bloqueada",
+            "seguridad@santanderr.com",
+            "Estimado cliente, su cuenta ha sido suspendida por actividad inusual. "
+            "Para desbloquearla debe verificar su cuenta con sus datos bancarios, "
+            "numero de cuenta, contrasena y CVV en: http://santanderr.com/verificar "
+            "Si no actua inmediatamente perdera el acceso."
+        ),
+        (
+            "subcarpeta_trabajo/informe_mensual.eml",
+            "Informe mensual de ventas - Junio",
+            "director@miempresa.es",
+            "Adjunto el informe de ventas de junio. Los resultados son positivos. Saludos."
+        ),
+        (
+            "sospechoso_medio.eml",
+            "Descuento especial para ti",
+            "ofertas@tienda-online.com",
+            "Oferta exclusiva solo para ti. Descarga ahora nuestra app gratis. "
+            "Tiempo limitado. Haz clic aqui: http://bit.ly/ofertaespecial"
+        ),
+    ]
+
+    for nombre, asunto, remitente, cuerpo in correos:
+        ruta = os.path.join(carpeta, nombre)
+        contenido = (
+            f"From: {remitente}\n"
+            f"Subject: {asunto}\n"
+            f"Content-Type: text/plain; charset=utf-8\n"
+            f"MIME-Version: 1.0\n\n"
+            f"{cuerpo}\n"
+        )
+        with open(ruta, "w", encoding="utf-8") as f:
+            f.write(contenido)
+
+    print(f" Correos de demo generados en: {carpeta}")
+
+
+if __name__ == "__main__":
+    import sys
+
+    if len(sys.argv) > 1:
+        # uso normal: python clasificador.py <carpeta_correos> [carpeta_cuarentena]
+        carpeta = sys.argv[1]
+        cuarentena = sys.argv[2] if len(sys.argv) > 2 else "cuarentena"
+        clasificar(carpeta, cuarentena)
+    else:
+        # modo demo de preeuba
+        print("Modo demo - generando correos de prueba...")
+        generar_correos_demo("demo_correos")
+        clasificar("demo_correos", "demo_cuarentena")
