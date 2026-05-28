@@ -206,5 +206,61 @@ class FiltroPorRemitenteSospechoso(FiltroCorreo): # Mira los dominios del remite
         return puntuacion, razones
 
 class AnalizadorCorreo:
-    pass
+    # Aqui lo que nharemos es juntar todos los filtros y analiza cada correo .eml
 
+    def init(self):
+        self.filtros = [
+            FiltroPorPalabrasClave(),
+            FiltroPorRemitenteSospechoso(),
+        ]
+
+    def analizar_eml(self, ruta_archivo):
+        # lee un archivo .eml y lo analiza con todos los filtros
+        try:
+            with open(ruta_archivo, "rb") as f:
+                msg = BytesParser(policy=policy.default).parse(f)
+        except Exception as e:
+            return {"archivo": ruta_archivo, "error": str(e)}
+
+        asunto = msg.get("Subject", "(sin asunto)")
+        remitente = msg.get("From", "(desconocido)")
+
+        # extraemos el texto del cuerpo
+        cuerpo = ""
+        if msg.is_multipart():
+            for parte in msg.walk():
+                if parte.get_content_type() == "text/plain":
+                    try:
+                        cuerpo += parte.get_content()
+                    except:
+                        pass
+        else:
+            try:
+                cuerpo = msg.get_content()
+            except:
+                cuerpo = ""
+
+        # aplicamos cada filtro y sumamos puntuaciones
+        puntuacion_total = 0
+        razones_total = []
+        for filtro in self.filtros:
+            puntuacion, razones = filtro.analizar(asunto, remitente, cuerpo)
+            puntuacion_total += puntuacion
+            razones_total += razones
+
+        # clasificamos según la puntuación total
+        if puntuacion_total >= 150:
+            nivel = "PELIGROSO"
+        elif puntuacion_total >= 60:
+            nivel = "SOSPECHOSO"
+        else:
+            nivel = "SEGURO"
+
+        return {
+            "archivo": ruta_archivo,
+            "asunto": asunto,
+            "remitente": remitente,
+            "puntuacion": puntuacion_total,
+            "nivel": nivel,
+            "razones": razones_total,
+        }
