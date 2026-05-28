@@ -94,7 +94,7 @@ def extraer_dominios(texto):
 
 class NodoBST:
     # cada nodo guarda una palabra, su peso de riesgo y cuántas veces aparece
-    def init(self, palabra, peso):
+    def __init__(self, palabra, peso):
         self.palabra = palabra
         self.peso = peso
         self.frecuencia = 1   # la primera vez que la insertamos
