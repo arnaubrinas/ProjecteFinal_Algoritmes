@@ -394,7 +394,7 @@ def clasificar(carpeta_entrada, carpeta_cuarentena="cuarentena"):
             mover_a_cuarentena(resultado, carpeta_cuarentena)
             cuenta += 1
 
-    print(f"[*] Movidos a cuarentena: {cuenta}")
+    print(f"Movidos a cuarentena: {cuenta}")
     imprimir_reporte(resultados)
     return resultados
 
