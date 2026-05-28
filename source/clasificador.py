@@ -264,3 +264,27 @@ class AnalizadorCorreo:
             "nivel": nivel,
             "razones": razones_total,
         }
+    
+    def escanear_carpeta(carpeta, analizador):
+    # Aqui recorre una carpeta y todas sus subcarpetas buscando archivos .eml
+    resultados = []
+
+    try:
+        entradas = os.listdir(carpeta)
+    except Exception as e:
+        print(f"No se puede leer la carpeta {carpeta}: {e}")
+        return resultados
+
+    for entrada in entradas:
+        ruta_completa = os.path.join(carpeta, entrada)
+
+        if os.path.isdir(ruta_completa):
+            # es una subcarpeta -> llamada recursiva
+            resultados += escanear_carpeta(ruta_completa, analizador)
+
+        elif os.path.isfile(ruta_completa) and entrada.lower().endswith(".eml"):
+            # es un correo .eml -> analizarlo
+            resultado = analizador.analizar_eml(ruta_completa)
+            resultados.append(resultado)
+
+    return resultados
