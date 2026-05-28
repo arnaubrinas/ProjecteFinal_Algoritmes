@@ -217,7 +217,7 @@ class FiltroPorRemitenteSospechoso(FiltroCorreo): # Mira los dominios del remite
 class AnalizadorCorreo:
     # Aqui lo que nharemos es juntar todos los filtros y analiza cada correo .eml
 
-    def init(self):
+    def __init__(self):
         self.filtros = [
             FiltroPorPalabrasClave(),
             FiltroPorRemitenteSospechoso(),
