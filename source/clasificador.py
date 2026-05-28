@@ -309,6 +309,7 @@ def imprimir_reporte(resultados):
             print(f"\n[ERROR] {r['archivo']}: {r['error']}")
             continue
 
+        # asignamos un icono según el nivel de riesgo
         nivel = r["nivel"]
         if nivel == "SEGURO":
             icono = "OK"
@@ -319,9 +320,10 @@ def imprimir_reporte(resultados):
 
         print(f"\n[{icono}] {nivel} (puntuacion: {r['puntuacion']})")
         print(f" Archivo   : {os.path.basename(r['archivo'])}")
-        print(f" Asunto    : {r['asunto'][:70]}")
+        print(f" Asunto    : {r['asunto'][:70]}")  #Si el texto es muy largo lo hacemos que solo sea hasta 70 carácteres
         print(f" Remitente : {r['remitente'][:70]}")
 
+        #mostramos las razones solo si hay alguna
         if r["razones"]:
             print(" Razones:")
             for razon in r["razones"]:
