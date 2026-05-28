@@ -93,8 +93,8 @@ for filtro in self.filtros:
 
 ### Requisits
 
-- Python **3.10+** (s'utilitza la sintaxi `X | Y` per a tipus)
-- Sense dependències externes — únicament llibreries estàndard de Python (`os`, `re`, `email`, `shutil`)
+- Python **3.10+**
+- Sense dependències externes  únicament llibreries estàndard de Python (`os`, `re`, `email`, `shutil`)
 
 ### Execució
 
@@ -118,22 +118,25 @@ python clasificador.py ./correus_entrada ./quarantena_sortida
 
 ```
 /
-├── clasificador.py
-├── correus_entrada/          ← carpeta amb arxius .eml
-│   ├── correu1.eml
-│   ├── correu2.eml
-│   └── subcarpeta/
-│       └── correu3.eml
-└── quarantena/               ← es crea automàticament
+PROJECTEFINAL_ALGORITMES/
+├── docs/
+│   ├── conclusions_i_propostes_futur.pdf
+│   ├── estudi_complexitat.pdf
+│   ├── flux_funcionalitat_1.png
+│   ├── flux_funcionalitat_2.png
+│   └── uml.png
+├── source/
+│   └── clasificador.py
+├── .gitignore
+└── README.md
 ```
 
 ---
 
 ##  Vídeo demostratiu
 
->  **[Inserir enllaç al vídeo aquí]**
+>  LINK
 
-*(Durada: 5-8 minuts — inclou presentació, demo en directe i explicació de l'anàlisi de complexitat)*
 
 ---
 
@@ -153,4 +156,3 @@ S’ha utilitzat de manera puntual intel·ligència artificial a algunes parts d
 
 ---
 
-*Projecte desenvolupat per a l'assignatura **Disseny i Anàlisi d'Algoritmes Avançats** — ENTI-UB*
