@@ -288,3 +288,41 @@ def escanear_carpeta(carpeta, analizador):
             resultados.append(resultado)
 
     return resultados
+
+def imprimir_reporte(resultados):
+    # muestra un resumen de todos los correos analizados
+    total = len(resultados)
+    seguros = sum(1 for r in resultados if r.get("nivel") == "SEGURO")
+    sospechosos = sum(1 for r in resultados if r.get("nivel") == "SOSPECHOSO")
+    peligrosos = sum(1 for r in resultados if r.get("nivel") == "PELIGROSO")
+    errores = sum(1 for r in resultados if "error" in r)
+
+    print("\nREPORTE - CLASIFICADOR SPAM/PHISHING")
+    print(f" Total analizados : {total}")
+    print(f" Seguros          : {seguros}")
+    print(f" Sospechosos      : {sospechosos}")
+    print(f" Peligrosos       : {peligrosos}")
+    print(f" Errores          : {errores}")
+
+    for r in resultados:
+        if "error" in r:
+            print(f"\n[ERROR] {r['archivo']}: {r['error']}")
+            continue
+
+        nivel = r["nivel"]
+        if nivel == "SEGURO":
+            icono = "OK"
+        elif nivel == "SOSPECHOSO":
+            icono = "!!"
+        else:
+            icono = "XX"
+
+        print(f"\n[{icono}] {nivel} (puntuacion: {r['puntuacion']})")
+        print(f" Archivo   : {os.path.basename(r['archivo'])}")
+        print(f" Asunto    : {r['asunto'][:70]}")
+        print(f" Remitente : {r['remitente'][:70]}")
+
+        if r["razones"]:
+            print(" Razones:")
+            for razon in r["razones"]:
+                print(f" - {razon}")
