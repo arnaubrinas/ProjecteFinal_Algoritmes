@@ -52,7 +52,7 @@ DOMINIOS_MALOS = [
     "mailinator.com", "tempmail.com", "guerrillamail.com",
 ]
 
-# La distancia de levenshtein mesura quanto de diferentes son dos palabrass calculando cuántas operaciones como insertar, borrar, sustituir..., hacen falta para pasar de s1 a s2
+# Esto era un lio de algoritmos que con la IA hemos podido avanzar y lo que dice es ver si un dominio falso se parece a uno real (como 'santanderr' vs 'santander')
 def distancia_levenshtein(s1, s2):
     m = len(s1)
     n = len(s2)
@@ -107,7 +107,8 @@ class NodoBST:
 
 # Almacena lkas palabras sospechosas que encuentra y permite insertar, buscar y calcular el riesgo total   
 class ArbolBST:
-    # Árbol BST para guardar las palabras sospechosas
+    # Árbol BST para guardar las palabras sospechosas y usamos este árbol porque la IA nos recomendó que es la mejor forma de 
+    # guardar palabras sospechosas y encontrarlas rápido sin volvernos locos
     #Usaamos _ en los métodos internos para indicar que son privados
 
     def __init__(self):
