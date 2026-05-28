@@ -457,7 +457,8 @@ def generar_correos_demo(carpeta):
 
     print(f" Correos de demo generados en: {carpeta}")
 
-
+    #aquí hemos usado IA porque no sabíamos muy bien cómo hacer que el programa y añadir el sys con el argv para que
+    # funcionara con carpetas externasy para que se ejecutara sola sin darnos errores raros de sistema
 if __name__ == "__main__":
     import sys
 
