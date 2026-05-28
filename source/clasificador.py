@@ -1,4 +1,7 @@
-#Cabe recalcar 
+# Cabe recalcar durante el desarrollo del proyecto hemos utilizado un poco de IA como herramienta de apoyo en algunas partes concretas. 
+# Nos ayudó a generar los correos de prueba para la demo, a completar las listas de palabras sospechosas, dominios legítimos que eran muy largos
+# y dominios en lista negra, y a definir los pesos numéricos de cada palabra. 
+# También nos ayudó con las expresiones regulares (regex) para extraer dominios.
 
 
 import os
