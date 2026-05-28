@@ -444,6 +444,6 @@ if __name__ == "__main__":
         clasificar(carpeta, cuarentena)
     else:
         # modo demo de preeuba
-        print("Modo demo - generando correos de prueba...")
+        print("Modo demo, generando correos de prueba...")
         generar_correos_demo("demo_correos")
         clasificar("demo_correos", "demo_cuarentena")
