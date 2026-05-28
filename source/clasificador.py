@@ -305,10 +305,10 @@ def mover_a_cuarentena(resultado, carpeta_cuarentena):
     nombre_archivo = os.path.basename(archivo_origen)
     destino = os.path.join(carpeta_cuarentena, nombre_archivo)
 
-    # si ya hay un archivo con el mismo nombre le añadimos _dup
+    # si ya hay un archivo con el mismo nombre le añadimos _copia
     if os.path.exists(destino):
         base, ext = os.path.splitext(nombre_archivo)
-        destino = os.path.join(carpeta_cuarentena, f"{base}_dup{ext}")
+        destino = os.path.join(carpeta_cuarentena, f"{base}_copia{ext}")
 
     shutil.move(archivo_origen, destino)
     resultado["archivo"] = destino
