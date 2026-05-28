@@ -89,7 +89,7 @@ def es_typosquatting(dominio):
             return True
     return False
 
-# Saca todos los dominios que aparecen en un texto i busca tanto en URLs como en direcciones de mail
+# Saca todos los dominios que aparecen en un texto i busca tanto en URLs como en direcciones de mail y henos usado IA para que nos de caracteres de patron para encontrar y ver la legitimidAD
 def extraer_dominios(texto):
     # busca dominios en URLs y también en direcciones de email
     patron = r'https?://([a-zA-Z0-9.\-]+)'
